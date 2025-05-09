@@ -31,6 +31,7 @@ class Garmin3AnchorView extends WatchUi.View {
         dc.clear();
         var app = getApp() as Garmin3AnchorApp;
         var position = app.getPositionInfo();
+        var komunikat = findDrawableById(:id_komunikat) as WatchUi.Text;
         
 
         // Sprawdzenie, czy mamy dane GPS
@@ -45,6 +46,8 @@ class Garmin3AnchorView extends WatchUi.View {
             // dc.drawText("Lon: " + lon, Graphics.FONT_LARGE, 10, 100, Graphics.TEXT_JUSTIFY_LEFT);
         } else {
             dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, "Czekam na GPS...", Graphics.TEXT_JUSTIFY_LEFT);
+            // komunikat.setText("Czekam na GPS...");
+            System.println("Czekam na GPS...");
             // Wyświetlenie komunikatu, jeśli GPS jeszcze nie jest gotowy
             // dc.drawText("Czekam na GPS...", Graphics.FONT_LARGE, 10, 50, Graphics.TEXT_JUSTIFY_LEFT);
         }

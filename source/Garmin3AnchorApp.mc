@@ -15,10 +15,12 @@ class Garmin3AnchorApp extends Application.AppBase {
     // onStart() is called on application start up
     function onStart(state as Dictionary?) as Void {
         System.println("Garmin3AnchorApp.onStart");
+        System.println("Włączanie GPS...");
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
+        System.println("GPS włączony.");
     }
 
-    public function onPosition(info as Position.Info) as Void {
+    function onPosition(info as Position.Info) as Void {
         System.println("Garmin3AnchorView.onPosition");
         var myLocation = info.position.toDegrees();
         positionInfo = myLocation;
