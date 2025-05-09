@@ -2,21 +2,13 @@ import Toybox.Graphics;
 import Toybox.WatchUi;
 using Toybox.Position;
 import Toybox.System;
+import Toybox.Application;
 
 class Garmin3AnchorView extends WatchUi.View {
-    var positionInfo;
 
     function initialize() {
         System.println("Garmin3AnchorView.initialize");
         View.initialize();
-    }
-
-    //! Handle app startup and enable location events to make sure GPS is on
-    //! @param state Startup arguments
-    public function onStart(state) as Void {
-        System.println("Garmin3AnchorView.onStart");
-        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
-        System.print(1);
     }
 
     // Load your resources here
@@ -31,32 +23,28 @@ class Garmin3AnchorView extends WatchUi.View {
         System.println("Garmin3AnchorView.onShow");
         // Start GPS
     }
-
-    public function onPosition(info as Position.Info) as Void {
-        System.println("Garmin3AnchorView.onPosition");
-        var myLocation = info.position.toDegrees();
-        positionInfo = myLocation;
-        System.println("Position Info: " + positionInfo);
-    }
-
     // Update the view
     function onUpdate(dc as Dc) as Void {
         System.println("Garmin3AnchorView.onUpdate");
         // Call the parent onUpdate function to redraw the layout
     // Wyczyszczenie ekranu
         dc.clear();
+        var app = getApp() as Garmin3AnchorApp;
+        var position = app.getPositionInfo();
+        
 
         // Sprawdzenie, czy mamy dane GPS
-        if (positionInfo != null) {
+        if (position != null) {
             dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
             dc.fillRectangle(100, 100, 100, 100);
-            var lat = positionInfo.toDegrees()[0];
-            var lon = positionInfo.toDegrees()[1];
+            var lat = position[0];
+            var lon = position[1];
             System.println("Aktualna pozycja: lat = " + lat + ", lon = " + lon);
             // Wyświetlenie współrzędnych GPS
             // dc.drawText("Lat: " + lat, Graphics.FONT_LARGE, 10, 50, Graphics.TEXT_JUSTIFY_LEFT);
             // dc.drawText("Lon: " + lon, Graphics.FONT_LARGE, 10, 100, Graphics.TEXT_JUSTIFY_LEFT);
         } else {
+            dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, "Czekam na GPS...", Graphics.TEXT_JUSTIFY_LEFT);
             // Wyświetlenie komunikatu, jeśli GPS jeszcze nie jest gotowy
             // dc.drawText("Czekam na GPS...", Graphics.FONT_LARGE, 10, 50, Graphics.TEXT_JUSTIFY_LEFT);
         }

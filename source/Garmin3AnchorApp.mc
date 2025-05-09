@@ -2,8 +2,10 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 import Toybox.System;
+import Toybox.Position;
 
 class Garmin3AnchorApp extends Application.AppBase {
+    var positionInfo;
 
     function initialize() {
         System.println("Garmin3AnchorApp.initialize");
@@ -13,6 +15,14 @@ class Garmin3AnchorApp extends Application.AppBase {
     // onStart() is called on application start up
     function onStart(state as Dictionary?) as Void {
         System.println("Garmin3AnchorApp.onStart");
+        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
+    }
+
+    public function onPosition(info as Position.Info) as Void {
+        System.println("Garmin3AnchorView.onPosition");
+        var myLocation = info.position.toDegrees();
+        positionInfo = myLocation;
+        System.println("Position Info: " + positionInfo);
     }
 
     // onStop() is called when your application is exiting
@@ -24,6 +34,11 @@ class Garmin3AnchorApp extends Application.AppBase {
     function getInitialView() as [Views] or [Views, InputDelegates] {
         System.println("Garmin3AnchorApp.getInitialView");
         return [ new Garmin3AnchorView(), new Garmin3AnchorDelegate() ];
+    }
+
+    public function getPositionInfo() as Array? {
+        System.println("Garmin3AnchorApp.getPositionInfo");
+        return positionInfo; // Zwraca aktualną pozycję GPS
     }
 
 }
