@@ -31,7 +31,7 @@ class Garmin3AnchorView extends WatchUi.View {
         dc.clear();
         var app = getApp() as Garmin3AnchorApp;
         var position = app.getPositionInfo();
-        var komunikat = findDrawableById(:id_komunikat) as WatchUi.Text;
+        // var komunikat = findDrawableById(:id_komunikat) as WatchUi.Text;
         
 
         // Sprawdzenie, czy mamy dane GPS
