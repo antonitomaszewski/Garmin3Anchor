@@ -1,5 +1,6 @@
 import Toybox.Graphics;
 import Toybox.WatchUi;
+import Toybox.Sensor;
 
 class Garmin3AnchorView extends WatchUi.View {
 
