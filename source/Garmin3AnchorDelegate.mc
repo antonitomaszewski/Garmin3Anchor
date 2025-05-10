@@ -13,5 +13,4 @@ class Garmin3AnchorDelegate extends WatchUi.BehaviorDelegate {
         WatchUi.pushView(new Rez.Menus.MainMenu(), new Garmin3AnchorMenuDelegate(), WatchUi.SLIDE_UP);
         return true;
     }
-
 }

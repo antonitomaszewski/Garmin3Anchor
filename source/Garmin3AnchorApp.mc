@@ -42,7 +42,6 @@ class Garmin3AnchorApp extends Application.AppBase {
         System.println("Garmin3AnchorApp.getPositionInfo");
         return positionInfo; // Zwraca aktualną pozycję GPS
     }
-
 }
 
 function getApp() as Garmin3AnchorApp {
