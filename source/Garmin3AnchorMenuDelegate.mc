@@ -15,6 +15,9 @@ class Garmin3AnchorMenuDelegate extends WatchUi.MenuInputDelegate {
             System.println("item 1");
         } else if (item == :item_2) {
             System.println("item 2");
+        } else if (item == :settings) {
+            var app = getApp() as Garmin3AnchorApp;
+            app.openSettings();
         }
     }
 
