@@ -10,6 +10,7 @@ class Garmin3AnchorApp extends Application.AppBase {
     function initialize() {
         System.println("Garmin3AnchorApp.initialize");
         AppBase.initialize();
+        positionInfo = [52.2297, 21.0122];
     }
 
     // onStart() is called on application start up
@@ -43,6 +44,7 @@ class Garmin3AnchorApp extends Application.AppBase {
         return positionInfo; // Zwraca aktualną pozycję GPS
     }
     function openSettings() as Void {
+        System.println("Garmin3AnchorApp.openSettings");
         WatchUi.pushView(new Garmin3AnchorSettingsView(), null, WatchUi.SLIDE_LEFT);
     }
 }
