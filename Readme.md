@@ -1,4 +1,4 @@
-Alarm kotwiczny
+# Alarm kotwiczny
 1. Zapisujemy obecną pozycję (P0)
 2. Zapisujemy długość wydanego łańcucha kotwicznego (eg. L = 10m)
 3. Regularnie pobieramy obecną pozycję GPS (P1, ... , Pn)
@@ -19,3 +19,6 @@ monkeyc -d fenix6xpro -f monkey.jungle -o bin/Garmin3Anchor.prg -y private_key.d
 
 przydatny artykuł, udało mi się dojść do punktu 3 z sukcesem:
 https://medium.com/@bgallois/garmin-app-development-without-the-visual-studio-code-85628e4b6ba1
+
+### Folder z przykładami
+/home/atoma/.Garmin/ConnectIQ/Sdks/connectiq-sdk-lin-8.1.1-2025-03-27-66dae750f/samples/
