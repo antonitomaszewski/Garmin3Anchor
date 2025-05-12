@@ -18,6 +18,8 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_k
 Kompilacja
 monkeyc -d fenix6xpro -f monkey.jungle -o bin/Garmin3Anchor.prg -y private_key.der
 
+wrzucamy klucz tutaj: /home/atoma/Pulpit/antoni/garmin_keys/private_key.der
+
 
 przydatny artykuł, udało mi się dojść do punktu 3 z sukcesem:
 https://medium.com/@bgallois/garmin-app-development-without-the-visual-studio-code-85628e4b6ba1
