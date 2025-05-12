@@ -105,3 +105,20 @@ Plan na kotwice
    5. wyświetla okrąg |P0 - chainlength| na zielono
 4. AnchorChainView
    1. ekran wyboru liczby
+
+### PositionSample
+przetestowałem te aplikację, jest bardzo prosta.
+1. APP
+   1. onStart - włączamy lokalizację
+   2. onStop - wyłączamy
+   3. onPosition - wywołujemy ustawianie lokalizacji w Widoku (do tego potrzebujemy mieć zmienną prywatną _positionView, którą inicjalizujemy w initialize)
+   4. getInitialView - zwracamy _positionView, tym razem bez delegata (bo nic się tam nie dzieje)
+2. PositionSampleView
+   1. _lines - tablica, w której trzymamy obecne informacje do wyświetlenia
+   2. initialize - ustawiamy "No Position info" jako startowe dane w _lines
+   3. onUpdate - przerysowanie na nowo widoku (z użyciem _lines)
+   4. setPosition - nasza własna metoda, która pozwala wypełnić tablicę _lines z danymi z najnowszej pozycji
+3. Przez to że nie mamy delegata, ani żadnych ustawień to nie mamy kontroli nad :
+   1.  tym co wyświetlamy (interesujące nas dane)
+   2.  jakich używamy jednostek
+4. uwaga do przyszłego rozważenia: mamy funkcję: Heading - z jej pomocą moglibyśmy ustawiać docelowo pozycję kotwicy: Heading + odległość do punktu z zrzutu (czyli np. gdy stoimy za sterem jako kapitan)
