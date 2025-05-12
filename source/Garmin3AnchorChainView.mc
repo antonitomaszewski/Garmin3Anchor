@@ -21,6 +21,11 @@ class Garmin3AnchorChainView extends WatchUi.View {
         // WatchUi.setFont(Graphics.FONT_LARGE);
     }
 
+    public function selected() {
+        // tu powinniśmy wrócić wyborem do Mapy głównej lub ustawień kotwicy
+        System.println("Garmin3AnchorChainView.selected");
+    }
+
     public function onUpdate(dc as Dc) as Void {
 
         // Set background color

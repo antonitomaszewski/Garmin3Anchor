@@ -27,7 +27,12 @@ class Garmin3AnchorChainDelegate extends WatchUi.InputDelegate {
             WatchUi.popView(WatchUi.SLIDE_UP);
             return true;
         }
-        // WatchUi.requestUpdate();
+        WatchUi.requestUpdate();
         return false;
+    }
+
+    public function onSelect() as Boolean {
+        _view.selected();
+        return true;
     }
 }
