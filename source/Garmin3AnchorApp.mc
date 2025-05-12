@@ -5,12 +5,13 @@ import Toybox.System;
 import Toybox.Position;
 
 class Garmin3AnchorApp extends Application.AppBase {
-    var positionInfo;
+    // var positionInfo
+    private var chainSettingsView as Garmin3AnchorChainView;
 
     function initialize() {
         System.println("Garmin3AnchorApp.initialize");
         AppBase.initialize();
-        positionInfo = [52.2297, 21.0122];
+        chainSettingsView = new $.Garmin3AnchorChainView();
     }
 
     // onStart() is called on application start up
@@ -24,8 +25,8 @@ class Garmin3AnchorApp extends Application.AppBase {
     function onPosition(info as Position.Info) as Void {
         System.println("Garmin3AnchorView.onPosition");
         var myLocation = info.position.toDegrees();
-        positionInfo = myLocation;
-        System.println("Position Info: " + positionInfo);
+        // positionInfo = myLocation;
+        // System.println("Position Info: " + positionInfo);
     }
 
     // onStop() is called when your application is exiting
@@ -36,13 +37,15 @@ class Garmin3AnchorApp extends Application.AppBase {
     // Return the initial view of your application here
     function getInitialView() as [Views] or [Views, InputDelegates] {
         System.println("Garmin3AnchorApp.getInitialView");
-        return [ new Garmin3AnchorView(), new Garmin3AnchorDelegate() ];
+        // return [ new Garmin3AnchorView(), new Garmin3AnchorDelegate() ];
+        return [chainSettingsView, new Garmin3AnchorChainDelegate(chainSettingsView)];
     }
 
-    public function getPositionInfo() as Array? {
-        System.println("Garmin3AnchorApp.getPositionInfo");
-        return positionInfo; // Zwraca aktualną pozycję GPS
-    }
+    // public function getPositionInfo() as Array? {
+        // System.println("Garmin3AnchorApp.getPositionInfo");
+        // return positionInfo; // Zwraca aktualną pozycję GPS
+    // }
+    
     function openSettings() as Void {
         System.println("Garmin3AnchorApp.openSettings");
         WatchUi.pushView(new Garmin3AnchorSettingsView(), null, WatchUi.SLIDE_LEFT);

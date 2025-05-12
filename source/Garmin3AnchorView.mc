@@ -26,33 +26,37 @@ class Garmin3AnchorView extends WatchUi.View {
     // Update the view
     function onUpdate(dc as Dc) as Void {
         System.println("Garmin3AnchorView.onUpdate");
-        // Call the parent onUpdate function to redraw the layout
-    // Wyczyszczenie ekranu
         dc.clear();
         var app = getApp() as Garmin3AnchorApp;
-        var position = app.getPositionInfo();
-        // var komunikat = findDrawableById(:id_komunikat) as WatchUi.Text;
-        
-
-        // Sprawdzenie, czy mamy dane GPS
-        if (position != null) {
-            dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
-            dc.fillRectangle(100, 100, 100, 100);
+        // var position = app.getPositionInfo();
+        var position = [1,2];
+        // Ustal parametry "mapy"
+        var mapX = 30;
+        var mapY = 30;
+        var mapW = dc.getWidth() - 60;
+        var mapH = dc.getHeight() - 60;
+        // Rysuj "mapę" jako prostokąt
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK); // użyj DK_GRAY zamiast GRAY
+        dc.drawRectangle(mapX, mapY, mapW, mapH);
+        // Jeśli mamy pozycję, zaznacz ją na mapie
+        if (position != null && position.size() == 2 && position[0] != null && position[1] != null) {
             var lat = position[0];
             var lon = position[1];
             System.println("Aktualna pozycja: lat = " + lat + ", lon = " + lon);
-            // Wyświetlenie współrzędnych GPS
-            // dc.drawText("Lat: " + lat, Graphics.FONT_LARGE, 10, 50, Graphics.TEXT_JUSTIFY_LEFT);
-            // dc.drawText("Lon: " + lon, Graphics.FONT_LARGE, 10, 100, Graphics.TEXT_JUSTIFY_LEFT);
+            // Przeskaluj współrzędne do prostokąta mapy (przykładowo, środek mapy)
+            var markerX = mapX + mapW/2;
+            var markerY = mapY + mapH/2;
+            // Zaznacz punkt na mapie
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
+            dc.fillCircle(markerX, markerY, 8);
+            // Opis współrzędnych
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            dc.drawText(mapX+5, mapY+5, Graphics.FONT_SMALL, "Lat: " + lat + ", Lon: " + lon, Graphics.TEXT_JUSTIFY_LEFT);
         } else {
-            dc.drawText(dc.getWidth() / 2, dc.getHeight() / 2, Graphics.FONT_LARGE, "Czekam na GPS...", Graphics.TEXT_JUSTIFY_LEFT);
-            // komunikat.setText("Czekam na GPS...");
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            dc.drawText(mapX+mapW/2, mapY+mapH/2, Graphics.FONT_LARGE, "Czekam na GPS...", Graphics.TEXT_JUSTIFY_CENTER);
             System.println("Czekam na GPS...");
-            // Wyświetlenie komunikatu, jeśli GPS jeszcze nie jest gotowy
-            // dc.drawText("Czekam na GPS...", Graphics.FONT_LARGE, 10, 50, Graphics.TEXT_JUSTIFY_LEFT);
         }
-
-        // Wywołanie metody nadrzędnej
         View.onUpdate(dc);
     }
 

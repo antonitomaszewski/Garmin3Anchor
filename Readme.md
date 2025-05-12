@@ -21,6 +21,10 @@ monkeyc -d fenix6xpro -f monkey.jungle -o bin/Garmin3Anchor.prg -y private_key.d
 wrzucamy klucz tutaj: /home/atoma/Pulpit/antoni/garmin_keys/private_key.der
 
 
+monkeyc -d fenix6xpro -f monkey.jungle -o bin/Aplikacja.prg -y /home/atoma/Pulpit/antoni/garmin_keys/private_key.der
+monkeydo bin/Aplikacja.prg fenix6xpro
+
+
 przydatny artykuł, udało mi się dojść do punktu 3 z sukcesem:
 https://medium.com/@bgallois/garmin-app-development-without-the-visual-studio-code-85628e4b6ba1
 
@@ -97,6 +101,7 @@ Plan na kotwice
    1. Set Anchor location - gdy to się kliknie to obecna pozycja zostaje zapisana
    2. Set anchorchain length -> przekierowuje do ustawienia wartości liczbowej
    3. alarm settings
+   4. settings
 3. MapView
    1. wyświetla mapę (środek w P0, przybliżenie: chainlength * 1.5)
    2. wyświetla punkt P0 na czarno

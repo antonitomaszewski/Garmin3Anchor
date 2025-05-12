@@ -9,37 +9,38 @@ class Garmin3AnchorSettingsView extends WatchUi.Menu2 {
     function initialize() {
         System.println("Garmin3AnchorSettingsView.initialize");
         Menu2.initialize({
-            :id => :settings_view,
+            // :id => :settings_view,
             :title => "Ustawienia",
-            :background => Graphics.COLOR_BLACK,
-            :foreground => Graphics.COLOR_WHITE,
-            :font => Graphics.FONT_LARGE
+            // :background => Graphics.COLOR_BLACK,
+            // :foreground => Graphics.COLOR_WHITE,
+            // :font => Graphics.FONT_LARGE
         });
     }
 
     function getItem(index as Lang.Number) as WatchUi.MenuItem or Null {
         if (index == 0) {
             return new WatchUi.MenuItem(
-                "Długość łańcucha" + chainLength + "m", null, :basic, null);
-          }
+                "Długość łańcucha: " + chainLength + "m",
+                null,
+                :basic,
+                null
+            );
+        }
         return null;
     }
 
     function onSelect(index as Lang.Number) as Void {
         if (index == 0) {
-            // Zwiększ długość łańcucha o 10m (cyklicznie w przedziale 0-100m)
-            chainLength = (chainLength + 10) % 110;
+            chainLength = (chainLength + 10) % 110; // Zwiększ wartość cyklicznie
             requestUpdate(); // Odśwież widok
         }
     }
 
     function onBack() as Void {
-        // Powrót do głównego widoku
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
+        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE); // Powrót do poprzedniego widoku
     }
 
     public function getChainLength() as Lang.Number {
         return chainLength;
     }
-    
 }
