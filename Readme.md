@@ -20,6 +20,9 @@ monkeyc -d fenix6xpro -f monkey.jungle -o bin/Garmin3Anchor.prg -y private_key.d
 przydatny artykuł, udało mi się dojść do punktu 3 z sukcesem:
 https://medium.com/@bgallois/garmin-app-development-without-the-visual-studio-code-85628e4b6ba1
 
+
+## Przykłady APLIKACJI
+
 ### Folder z przykładami
 /home/atoma/.Garmin/ConnectIQ/Sdks/connectiq-sdk-lin-8.1.1-2025-03-27-66dae750f/samples/
 
@@ -34,8 +37,7 @@ monkeyc -d fenix6xpro -f monkey.jungle -o bin/MapSample.prg -y private_key.der
 connectiq
 monkeydo bin/MapSample.prg fenix6xpro
 
-
-### Inspiracja MapSample
+### MapSample
 To jest bardzo przydatny projekt
 MapView.setPolyline(polyline) - rysuje linie łączące zadane punkty (to dla mnie nie aż tak przydatne chyba)
 MapView.setMapMarker(map_markers) - rysuje znaczniki do danych pozycji (to zajmuje bardzo dużo miejsca)
@@ -61,3 +63,6 @@ Gdy kliknąłem w widoku TrackView PD (cofanie) to mimo że nie ma zaimplementow
 wygląd ikon możemy załadować tak: marker.setIcon(WatchUi.loadResource(...))
 W takim razie moglibyśmy pewnie załadować pojedyncze delikatne kropki
 Naszą obecną pozycję powinniśmy zawsze oznaczać w sposób specyficzny (np. P0 -  czarny X, P1...Pi-1 zielone koło, Pi - zielony okrąg)
+
+
+### Attention
