@@ -66,3 +66,17 @@ Naszą obecną pozycję powinniśmy zawsze oznaczać w sposób specyficzny (np
 
 
 ### Attention
+
+1. Mamy App:
+tu praktycznie jedynie inicjalizujemy: getInitialView -> [View, Delegate]
+2. Delegate: 
++ przechowuje zmienną prywatą widok
++ ma metodę onKey -> w zależności od przycisku wywołujemy inne metody na naszym widoku
++ onSelect -> co się dzieje, gdy naciśniemy enter (podobne do onKey)
++ zbędne dla ekranów nie dotykowych: onTap, onSwipe
+3. View:
+  +  Toybox.Attention.vibrate([(siła, czas), (siła2, czas2)])
+  +  w ten sposób definiujemy cykl charakterystki wibrowania
+  +  Attention.playTone(loadSong()) zawiera listę krotek: wysokość dźwięku i czas trwania - czyli nuty
+  +  loadSong właśnie łąduje nuty z xml i przerabia na dźwięk do playTone
+
