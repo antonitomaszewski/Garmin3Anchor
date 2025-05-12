@@ -9,6 +9,8 @@
 
 
 # NOTATKI
+
+## Jak włączyć aplikację
 Generowanie klucza
 openssl genpkey -algorithm RSA -out private_key.pem -outform PEM -pkeyopt rsa_keygen_bits:4096
 openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
@@ -33,9 +35,9 @@ cd /home/atoma/.Garmin/ConnectIQ/Sdks/connectiq-sdk-lin-8.1.1-2025-03-27-66dae75
 mkdir bin
 openssl genpkey -algorithm RSA -out private_key.pem -outform PEM -pkeyopt rsa_keygen_bits:4096
 openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
-monkeyc -d fenix6xpro -f monkey.jungle -o bin/MapSample.prg -y private_key.der
+monkeyc -d fenix6xpro -f monkey.jungle -o bin/Aplikacja.prg -y private_key.der
 connectiq
-monkeydo bin/MapSample.prg fenix6xpro
+monkeydo bin/Aplikacja.prg fenix6xpro
 
 ### MapSample
 To jest bardzo przydatny projekt
@@ -80,3 +82,24 @@ tu praktycznie jedynie inicjalizujemy: getInitialView -> [View, Delegate]
   +  Attention.playTone(loadSong()) zawiera listę krotek: wysokość dźwięku i czas trwania - czyli nuty
   +  loadSong właśnie łąduje nuty z xml i przerabia na dźwięk do playTone
 
+Podsumowanie:
+udało mi się to potestować zarówno w symulatorze jak i moim zegarku: wystarczy podłączyć go przez usb i przenieść do folderu Garmin/APPS/
+teraz nasza aplikacja będzie się znajdować na dole listy
+w fenix 6x pro ani nie ma backlight, ani nie ma tone, jedynie proste wibracje. Nie rozumiem tego, ale nie będziemy narazie się zagrzebywać w te szczegóły.
+
+### Anchor
+Plan na kotwice
+1. App - główna aplikacja, wywołuje MenuView - żebyśmy mogli od razu ustawić pozycję.
+   1. Ma metodę getInitialView -> [new MenuView, new MenuDelegate]
+2. MenuView
+   1. Set Anchor location - gdy to się kliknie to obecna pozycja zostaje zapisana
+   2. Set anchorchain length -> przekierowuje do ustawienia wartości liczbowej
+   3. alarm settings
+3. MapView
+   1. wyświetla mapę (środek w P0, przybliżenie: chainlength * 1.5)
+   2. wyświetla punkt P0 na czarno
+   3. wyświetla punkty P1...Pn-1 na zielono
+   4. wyświetla punkt Pn na niebiesko
+   5. wyświetla okrąg |P0 - chainlength| na zielono
+4. AnchorChainView
+   1. ekran wyboru liczby
