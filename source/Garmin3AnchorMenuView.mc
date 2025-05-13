@@ -89,7 +89,7 @@ class Garmin3AnchorMenuView extends WatchUi.View {
         } else if (ACTION_BACK_TO_MAP == _selectedIndex) {
             // Exit menu
             var app = getApp();
-            WatchUi.pushView(app.getMapView(), null, WatchUi.SLIDE_LEFT);
+            WatchUi.pushView(app.getMapView(), app.getMapDelegate(), WatchUi.SLIDE_LEFT);
         }
         WatchUi.requestUpdate();
     }
