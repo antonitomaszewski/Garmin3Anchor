@@ -24,16 +24,10 @@ class Garmin3AnchorChainDelegate extends WatchUi.InputDelegate {
             _view.nextDigitOrAccept();
             return true;
         } else if (key == WatchUi.KEY_ESC) {
-            var app = getApp();
-            WatchUi.pushView(app.getMenuView(), app.getMenuDelegate(), WatchUi.SLIDE_RIGHT);
+            _view.escape();
             return true;
         } 
         WatchUi.requestUpdate();
         return false;
     }
-
-    // public function onSelect() as Boolean {
-    //     _view.selected();
-    //     return true;
-    // }
 }

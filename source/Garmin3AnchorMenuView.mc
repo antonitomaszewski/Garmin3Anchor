@@ -90,7 +90,6 @@ class Garmin3AnchorMenuView extends WatchUi.View {
             // Exit menu
             var app = getApp();
             WatchUi.pushView(app.getMapView(), null, WatchUi.SLIDE_LEFT);
-            // WatchUi.pushView(new Garmin3AnchorMapView(), null, WatchUi.SLIDE_LEFT);
         }
         WatchUi.requestUpdate();
     }

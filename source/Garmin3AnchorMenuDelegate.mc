@@ -24,19 +24,10 @@ class Garmin3AnchorMenuDelegate extends WatchUi.InputDelegate {
             _view.action();
         } else if (key == WatchUi.KEY_ESC) {
             _view.action();
-            // WatchUi.pushView(new Garmin3AnchorMapView(), null, WatchUi.SLIDE_LEFT);
-            // var app = getApp();
-            // WatchUi.pushView(app.getMapView(), null, WatchUi.SLIDE_LEFT);
-            // return true;
         } else {
             return false;
         }
         WatchUi.requestUpdate();
         return true;
     }
-
-    // public function onSelect() as Boolean {
-    //     _view.action();
-    //     return true;
-    // }
 }

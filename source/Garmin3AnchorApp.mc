@@ -13,7 +13,7 @@ class Garmin3AnchorApp extends Application.AppBase {
     private var chainView as Garmin3AnchorChainView or Null;
     private var chainDelegate as Garmin3AnchorChainDelegate or Null;
     private var mapView as Garmin3AnchorMapView or Null;
-    // private var MapDelegate as Garmin3AnchorMapDelegate or Null;
+    private var mapDelegate as Garmin3AnchorMapDelegate or Null;
     private var menuView as Garmin3AnchorMenuView or Null;
     private var menuDelegate as Garmin3AnchorMenuDelegate or Null;
 
@@ -23,7 +23,7 @@ class Garmin3AnchorApp extends Application.AppBase {
         chainView = new Garmin3AnchorChainView();
         chainDelegate = new Garmin3AnchorChainDelegate(chainView);
         mapView = new Garmin3AnchorMapView();
-        // MapDelegate = new Garmin3AnchorMapDelegate(MapView);
+        mapDelegate = new Garmin3AnchorMapDelegate(MapView);
         menuView = new Garmin3AnchorMenuView();
         menuDelegate = new Garmin3AnchorMenuDelegate(menuView);
 
@@ -96,6 +96,10 @@ class Garmin3AnchorApp extends Application.AppBase {
         System.println("Garmin3AnchorApp.getMapView");
         return mapView;
     }
+    function getMapDelegate() as Garmin3AnchorMapDelegate {
+        System.println("Garmin3AnchorApp.getMapDelegate");
+        return mapDelegate;
+    }
     function getMenuView() as Garmin3AnchorMenuView {
         System.println("Garmin3AnchorApp.getMenuView");
         return menuView;
@@ -111,7 +115,6 @@ class Garmin3AnchorApp extends Application.AppBase {
         System.println("Garmin3AnchorApp.getInitialView");
         return [getMenuView(), getMenuDelegate()];
         // return [getMapView()];
-        // return [new Garmin3AnchorMapView()];
     }
 }
 

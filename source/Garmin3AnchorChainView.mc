@@ -22,6 +22,10 @@ class Garmin3AnchorChainView extends WatchUi.View {
         }
         WatchUi.requestUpdate();
     }
+    public function escape() as Void {
+        var app = getApp();
+        WatchUi.pushView(app.getMenuView(), app.getMenuDelegate(), WatchUi.SLIDE_RIGHT);
+    }
 
 
     // public function selected() {
