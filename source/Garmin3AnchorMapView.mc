@@ -4,21 +4,66 @@ import Toybox.System;
 import Toybox.Attention;
 import Toybox.Position;
 import Toybox.Lang;
+import Toybox.Math;
 
 class Garmin3AnchorMapView extends WatchUi.MapView {
     public function initialize() {
         System.println("Garmin3AnchorMapView.initialize");
         MapView.initialize();
-        setMapMode(WatchUi.MAP_MODE_PREVIEW);
+        
 
+        // MapView.setMapMode(WatchUi.MAP_MODE_PREVIEW);
         // create the bounding box for the map area
-        var top_left = new Position.Location({:latitude => 38.85695, :longitude =>-94.80051, :format => :degrees});
-        var bottom_right = new Position.Location({:latitude => 45.85391, :longitude =>-94.7963, :format => :degrees});
+        // var lat = 51.112222; 
+        // var lon = 17.051111;
+        var top_left = new Position.Location({:latitude => 51.115, :longitude =>17.04, :format => :degrees});
+        var bottom_right = new Position.Location({:latitude => 51.110, :longitude =>17.06, :format => :degrees});
         MapView.setMapVisibleArea(top_left, bottom_right);
 
-        // set the bound box for the screen area to focus the map on
+        // // set the bound box for the screen area to focus the map on
         MapView.setScreenVisibleArea(0, 0, System.getDeviceSettings().screenWidth, System.getDeviceSettings().screenHeight / 2);
+
+        // System.println("Garmin3AnchorMapView.setDefaultMapSettings");
+        setDefaultMapSettings();
     }
+
+public function setDefaultMapSettings() as Void {
+    System.println("Garmin3AnchorMapView.setDefaultMapSettings");
+    MapView.setMapMode(WatchUi.MAP_MODE_PREVIEW);
+    var app = getApp();
+    var anchor = app.getAnchorPosition();
+    var chainLength = app.getAnchorChainLength();
+
+    if (anchor != null and chainLength != null) {
+        // Oblicz przesunięcie w stopniach dla podanej odległości (przybliżenie)
+        var earthRadius = 6371000.0; // metry
+        var dLat = (1 * chainLength / earthRadius) * 180.0 / Math.PI;
+        var dLon = (1 * chainLength / (earthRadius * Math.cos(anchor.toDegrees()[0] * Math.PI / 180.0))) * 180.0 / Math.PI;
+
+
+        // Lewy górny róg (NW)
+        var topLeft = new Position.Location({
+            :latitude => anchor.toDegrees()[0] + dLat,
+            :longitude => anchor.toDegrees()[1] - dLon,
+            :format => :degrees
+        });
+        System.println(topLeft.toString());
+
+        // Prawy dolny róg (SE)
+        var bottomRight = new Position.Location({
+            :latitude => anchor.toDegrees()[0] - dLat,
+            :longitude => anchor.toDegrees()[1] + dLon,
+            :format => :degrees            
+        });
+        System.println("Coś chyba ustawiłem");
+
+        // Ustaw widoczny obszar mapy
+        MapView.setMapVisibleArea(topLeft, bottomRight);
+
+        // Ustaw widoczny obszar ekranu (cały ekran)
+        MapView.setScreenVisibleArea(0, 0, System.getDeviceSettings().screenWidth, System.getDeviceSettings().screenHeight);
+    }
+}
 
     //! Load your resources here
     //! @param dc Device context
@@ -29,6 +74,8 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
     //! the state of this View and prepare it to be shown. This includes
     //! loading resources into memory.
     public function onShow() as Void {
+        // setScreenVisibleArea(0, 0, System.getDeviceSettings().screenWidth, System.getDeviceSettings().screenHeight);
+        // setDefaultMapSettings();
     }
 
     public function distance(pos1 as Position.Location or Null, pos2 as Position.Location or Null) as Number or Double or Float {

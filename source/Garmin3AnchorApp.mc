@@ -26,7 +26,7 @@ class Garmin3AnchorApp extends Application.AppBase {
         mapDelegate = new Garmin3AnchorMapDelegate(MapView);
         menuView = new Garmin3AnchorMenuView();
         menuDelegate = new Garmin3AnchorMenuDelegate(menuView);
-
+        setDefaults();
     }
 
     function onStart(state as Dictionary?) as Void {
@@ -46,6 +46,28 @@ class Garmin3AnchorApp extends Application.AppBase {
     function onStop(state as Dictionary?) as Void {
         System.println("Garmin3AnchorApp.onStop");
         Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onPosition));
+    }
+
+    function setDefaults() as Void {
+        setDefaultAnchorPosition();
+        setDefaultAnchorChainLength();
+    }
+
+    function setDefaultAnchorPosition() as Void {
+        // 5°6'44"N, 17°3'4"E
+        var lat = 51.112222; 
+        var lon = 17.051111;
+        anchorPosition = new Position.Location({
+            :latitude => lat,
+            :longitude => lon,
+            :format => :degrees
+        });
+        System.println("Ustawiono domyślną pozycję kotwicy: " + lat + ", " + lon);
+    }
+
+    function setDefaultAnchorChainLength() as Void {
+        anchorChainLength = 10;
+        System.println("Ustawiono domyślną długość łańcucha: 10m");
     }
 
     function isAnchorPositionSet() as Boolean {
