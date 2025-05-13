@@ -88,7 +88,9 @@ class Garmin3AnchorMenuView extends WatchUi.View {
             WatchUi.pushView(app.getChainView(), app.getChainDelegate(), WatchUi.SLIDE_LEFT);
         } else if (ACTION_BACK_TO_MAP == _selectedIndex) {
             // Exit menu
-            WatchUi.pushView(new Garmin3AnchorMapView(), null, WatchUi.SLIDE_LEFT);
+            var app = getApp();
+            WatchUi.pushView(app.getMapView(), null, WatchUi.SLIDE_LEFT);
+            // WatchUi.pushView(new Garmin3AnchorMapView(), null, WatchUi.SLIDE_LEFT);
         }
         WatchUi.requestUpdate();
     }

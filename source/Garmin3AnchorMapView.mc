@@ -10,15 +10,6 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         System.println("Garmin3AnchorMapView.initialize");
         MapView.initialize();
         setMapMode(WatchUi.MAP_MODE_PREVIEW);
-        // create a new polyline
-
-        // marker = new WatchUi.MapMarker(new Position.Location({:latitude => 340.85508, :longitude =>-94.79959, :format => :degrees}));
-        // marker.setIcon(WatchUi.MAP_MARKER_ICON_PIN, 0, 0);
-        // marker.setLabel("Predefined Icon");
-        // map_markers.add(marker);
-
-        // // add map markers to the map
-        // MapView.setMapMarker(map_markers);
 
         // create the bounding box for the map area
         var top_left = new Position.Location({:latitude => 38.85695, :longitude =>-94.80051, :format => :degrees});
@@ -58,73 +49,79 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
 
     public function onUpdate(dc as Dc) as Void {
         System.println("Garmin3AnchorMapView.onUpdate");
-        dc.clear();
-
-        var app = getApp();
-        var anchor = app.getAnchorPosition();
-        var chainLength = app.getAnchorChainLength();
-        var positions = app.getSailboatPositions();
-
-
-        if (anchor == null or chainLength == null or positions == null or positions.size() == 0) {
-            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-            dc.drawText(dc.getWidth()/2, dc.getHeight()/2, Graphics.FONT_LARGE, "Brak danych", Graphics.TEXT_JUSTIFY_CENTER);
-            return;
-        }
-        
-        // Ustal parametry "mapy"
-        var mapX = 30;
-        var mapY = 30;
-        var mapW = dc.getWidth() - 60;
-        var mapH = dc.getHeight() - 60;
-
-        // Rysuj tło mapy
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
-        dc.drawRectangle(mapX, mapY, mapW, mapH);
-
-        // Jeśli anchorPosition jest ustawiony
-        if (anchor != null) {
-            // Wyznacz środek mapy
-            var centerX = mapX + mapW/2;
-            var centerY = mapY + mapH/2;
-
-            // Rysuj okrąg alarmowy (jeśli anchorChainLength ustawiony)
-            if (chainLength != null) {
-                var scale = 1.0; // Możesz dobrać skalę do rozmiaru mapy
-                var radius = chainLength * scale;
-                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-                dc.drawCircle(centerX, centerY, radius);
-            }
-
-            // Zaznacz anchorPosition (czarny X)
-            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(centerX, centerY, Graphics.FONT_LARGE, "X", Graphics.TEXT_JUSTIFY_CENTER);
-
-            // Rysuj pozycje łodzi (zielone kółka)
-            if (positions != null && positions.size() > 0) {
-                for (var i = 0; i < positions.size(); ++i) {
-                    var pos = positions[i];
-                    // Przeskaluj pozycję względem anchorPosition (tu uproszczenie: wszystkie na środku)
-                    // W praktyce musisz przeliczyć różnicę współrzędnych na piksele!
-                    var px = pos.toDegrees()[0] * 10 + centerX; // Przykładowe przeliczenie
-                    var py = pos.toDegrees()[1] * 10 + centerY; // Przykładowe przeliczenie
-                    dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-                    dc.fillCircle(px, py, 6);
-                }
-            }
-
-            // Sprawdź dystans do ostatniej pozycji i włącz wibrację jeśli poza zasięgiem
-            if (positions != null && positions.size() > 0 && chainLength != null) {
-                var lastPos = positions[positions.size()-1];
-                var dist = distance(anchor, lastPos); // w metrach
-                if (dist > chainLength) {
-                    Attention.vibrate([new Attention.VibeProfile(25, 100)]);
-                }
-            }
-        } else {
-            // Brak pozycji kotwicy
-            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-            dc.drawText(mapX+mapW/2, mapY+mapH/2, Graphics.FONT_LARGE, "Ustaw kotwicę", Graphics.TEXT_JUSTIFY_CENTER);
-        }
+        MapView.onUpdate(dc);
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
     }
+
+    // public function onUpdate(dc as Dc) as Void {
+    //     System.println("Garmin3AnchorMapView.onUpdate");
+    //     dc.clear();
+
+    //     var app = getApp();
+    //     var anchor = app.getAnchorPosition();
+    //     var chainLength = app.getAnchorChainLength();
+    //     var positions = app.getSailboatPositions();
+
+
+    //     if (anchor == null or chainLength == null or positions == null or positions.size() == 0) {
+    //         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+    //         dc.drawText(dc.getWidth()/2, dc.getHeight()/2, Graphics.FONT_LARGE, "Brak danych", Graphics.TEXT_JUSTIFY_CENTER);
+    //         return;
+    //     }
+
+    //     // Ustal parametry "mapy"
+    //     var mapX = 30;
+    //     var mapY = 30;
+    //     var mapW = dc.getWidth() - 60;
+    //     var mapH = dc.getHeight() - 60;
+
+    //     // Rysuj tło mapy
+    //     dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
+    //     dc.drawRectangle(mapX, mapY, mapW, mapH);
+
+    //     // Jeśli anchorPosition jest ustawiony
+    //     if (anchor != null) {
+    //         // Wyznacz środek mapy
+    //         var centerX = mapX + mapW/2;
+    //         var centerY = mapY + mapH/2;
+
+    //         // Rysuj okrąg alarmowy (jeśli anchorChainLength ustawiony)
+    //         if (chainLength != null) {
+    //             var scale = 1.0; // Możesz dobrać skalę do rozmiaru mapy
+    //             var radius = chainLength * scale;
+    //             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+    //             dc.drawCircle(centerX, centerY, radius);
+    //         }
+
+    //         // Zaznacz anchorPosition (czarny X)
+    //         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+    //         dc.drawText(centerX, centerY, Graphics.FONT_LARGE, "X", Graphics.TEXT_JUSTIFY_CENTER);
+
+    //         // Rysuj pozycje łodzi (zielone kółka)
+    //         if (positions != null && positions.size() > 0) {
+    //             for (var i = 0; i < positions.size(); ++i) {
+    //                 var pos = positions[i];
+    //                 // Przeskaluj pozycję względem anchorPosition (tu uproszczenie: wszystkie na środku)
+    //                 // W praktyce musisz przeliczyć różnicę współrzędnych na piksele!
+    //                 var px = pos.toDegrees()[0] * 10 + centerX; // Przykładowe przeliczenie
+    //                 var py = pos.toDegrees()[1] * 10 + centerY; // Przykładowe przeliczenie
+    //                 dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+    //                 dc.fillCircle(px, py, 6);
+    //             }
+    //         }
+
+    //         // Sprawdź dystans do ostatniej pozycji i włącz wibrację jeśli poza zasięgiem
+    //         if (positions != null && positions.size() > 0 && chainLength != null) {
+    //             var lastPos = positions[positions.size()-1];
+    //             var dist = distance(anchor, lastPos); // w metrach
+    //             if (dist > chainLength) {
+    //                 Attention.vibrate([new Attention.VibeProfile(25, 100)]);
+    //             }
+    //         }
+    //     } else {
+    //         // Brak pozycji kotwicy
+    //         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+    //         dc.drawText(mapX+mapW/2, mapY+mapH/2, Graphics.FONT_LARGE, "Ustaw kotwicę", Graphics.TEXT_JUSTIFY_CENTER);
+    //     }
+    // }
 }
