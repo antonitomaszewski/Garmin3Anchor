@@ -3,7 +3,7 @@
 
     <string id="prompt">Click the menu button</string>
 
-    <string id="menu_label_1">Item 1</string>
-    <string id="menu_label_2">Item 2</string>
-    <string id="menu_settings">Set Chain Length</string>
+    <string id="setAnchorPosition">Set Anchor Position</string>
+    <string id="setAnchorChainLength">Set Chain Length</string>
+    <string id="back">Back to Map</string>
 </strings>

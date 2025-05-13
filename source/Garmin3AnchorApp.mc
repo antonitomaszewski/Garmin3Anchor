@@ -49,6 +49,7 @@ class Garmin3AnchorApp extends Application.AppBase {
     }
 
     function isAnchorPositionSet() as Boolean {
+        System.println("Garmin3AnchorApp.isAnchorPositionSet");
         return anchorPosition != null;
     }
 
@@ -58,6 +59,7 @@ class Garmin3AnchorApp extends Application.AppBase {
     }
 
     function getAnchorPosition() as Position.Location or Null {
+        System.println("Garmin3AnchorApp.getAnchorPosition");
         return anchorPosition;
     }
 
@@ -67,6 +69,7 @@ class Garmin3AnchorApp extends Application.AppBase {
     }
 
     function getAnchorChainLength() as Number or Null {
+        System.println("Garmin3AnchorApp.getAnchorChainLength");
         return anchorChainLength;
     }
 
@@ -75,24 +78,30 @@ class Garmin3AnchorApp extends Application.AppBase {
         sailboatPositions.add(info.position);
     }
 
-    function getSailboatPositions() as Array<Position.Location> {
+    function getSailboatPositions() as Array<Position.Location> or Null {
+        System.println("Garmin3AnchorApp.getSailboatPositions");
         return sailboatPositions;
     }
 
 
     function getChainView() as Garmin3AnchorChainView {
+        System.println("Garmin3AnchorApp.getChainView");
         return chainView;
     }
     function getChainDelegate() as Garmin3AnchorChainDelegate {
+        System.println("Garmin3AnchorApp.getChainDelegate");
         return chainDelegate;
     }
     function getMapView() as Garmin3AnchorMapView {
+        System.println("Garmin3AnchorApp.getMapView");
         return mapView;
     }
     function getMenuView() as Garmin3AnchorMenuView {
+        System.println("Garmin3AnchorApp.getMenuView");
         return menuView;
     }
     function getMenuDelegate() as Garmin3AnchorMenuDelegate {
+        System.println("Garmin3AnchorApp.getMenuDelegate");
         return menuDelegate;
     }
 
@@ -100,7 +109,7 @@ class Garmin3AnchorApp extends Application.AppBase {
     // Return the initial view of your application here
     function getInitialView() as [Views] or [Views, InputDelegates] {
         System.println("Garmin3AnchorApp.getInitialView");
-        return [menuView, menuDelegate];
+        return [getMenuView(), getMenuDelegate()];
     }
 }
 

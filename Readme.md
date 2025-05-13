@@ -44,6 +44,14 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_k
 monkeyc -d fenix6xpro -f monkey.jungle -o bin/Aplikacja.prg -y private_key.der
 connectiq
 monkeydo bin/Aplikacja.prg fenix6xpro
+simulator & monkeydo bin/Aplikacja.prg fenix6xpro
+
+monkeyc -d fenix6xpro -f monkey.jungle -o bin/Aplikacja.prg -y /home/atoma/Pulpit/antoni/garmin_keys/private_key.der & simulator & monkeydo bin/Aplikacja.prg fenix6xpro
+
+### DEBUG
+simulator & mdd
+file bin/Aplikacja.prg bin/Aplikacja.prg.debug.xml fenix6xpro
+break source/Garmin3AnchorMapView.mc:31
 
 ### MapSample
 To jest bardzo przydatny projekt

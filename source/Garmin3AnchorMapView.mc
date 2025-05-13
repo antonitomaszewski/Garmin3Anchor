@@ -11,7 +11,7 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         MapView.initialize();
     }
 
-    function distance(pos1 as Position.Location, pos2 as Position.Location) as Number or Double or Float {
+    function distance(pos1 as Position.Location or Null, pos2 as Position.Location or Null) as Number or Double or Float {
         if (pos1 == null || pos2 == null) {
             return 0;
         }
@@ -45,6 +45,10 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         // Rysuj tło mapy
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
         dc.drawRectangle(mapX, mapY, mapW, mapH);
+
+        if (anchor == null or positions == null or positions.size() == 0) {
+            return;
+        }
 
         // Jeśli anchorPosition jest ustawiony
         if (anchor != null) {
