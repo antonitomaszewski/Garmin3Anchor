@@ -11,8 +11,14 @@ class Garmin3AnchorChainView extends WatchUi.View {
     }
 
 
-    function incrementDigit() { _digits[_selected] = (_digits[_selected]+1)%10; WatchUi.requestUpdate(); }
-    function decrementDigit() { _digits[_selected] = (_digits[_selected]+9)%10; WatchUi.requestUpdate(); }
+    function incrementDigit() {
+        _digits[_selected] =( (_digits[_selected as Number] + 1) % 10 )as Number; 
+        WatchUi.requestUpdate(); 
+    }
+    function decrementDigit() {
+        _digits[_selected] = (_digits[_selected]+9)%10 as Number;
+         WatchUi.requestUpdate(); 
+    }
     function nextDigitOrAccept() {
         System.println("Garmin3AnchorChainView.nextDigitOrAccept");
         if (_selected < 2) { _selected += 1; }
@@ -50,11 +56,11 @@ class Garmin3AnchorChainView extends WatchUi.View {
         var font = Graphics.FONT_SMALL;
         var textHeight = dc.getFontHeight(font);
 
-        y -= textHeight / 2;
+        y -= textHeight / 2 as Number;
         var display = "" as String;
-        for (var i = 0; i < 3; ++i) {
+        for (var i = 0 as Number; i < 3; ++i) {
             if (i == _selected) {
-                display += "[" + _digits[i].toString() + "]";
+                display += "[" + _digits[i].toString() + "]" as String;
             } else {
                 display += " " + _digits[i].toString() + " ";
             }
