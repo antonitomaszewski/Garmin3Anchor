@@ -1,24 +1,94 @@
 import Toybox.WatchUi;
 import Toybox.Graphics;
 import Toybox.System;
+import Toybox.Attention;
+import Toybox.Position;
+import Toybox.Lang;
 
 class Garmin3AnchorMapView extends WatchUi.MapView {
     function initialize() {
-        MapView.initialize();
         System.println("Garmin3AnchorMapView.initialize");
+        MapView.initialize();
     }
 
-    function onShow() as Void {
-        System.println("Garmin3AnchorMapView.onShow");
-        // Ustaw pozycję mapy na positionInfo
-        var app = getApp() as Garmin3AnchorApp;
-        // var position = app.getPositionInfo();
-        // if (position != null && position.size() == 2) {
+    function distance(pos1 as Position.Location, pos2 as Position.Location) as Number or Double or Float {
+        if (pos1 == null || pos2 == null) {
+            return 0;
+        }
+        var R = 6371000.0; // promień Ziemi w metrach
+        var lat1 = pos1.toRadians()[0];
+        var lon1 = pos1.toRadians()[1];
+        var lat2 = pos2.toRadians()[0];
+        var lon2 = pos2.toRadians()[1];
+        var dlat = lat2 - lat1;
+        var dlon = lon2 - lon1;
+        var a = Math.pow(Math.sin(dlat/2),2) + Math.cos(lat1)*Math.cos(lat2)*Math.pow(Math.sin(dlon/2),2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
 
-            // setMapLocation(position[0], position[1]);
-            // setMapZoom(16); // przykładowy zoom
-            // clearMapMarkers();
-            // addMapMarker(position[0], position[1]);
-        // }
+    function onUpdate(dc as Dc) as Void {
+        System.println("Garmin3AnchorMapView.onUpdate");
+        dc.clear();
+
+        var app = getApp();
+        var anchor = app.getAnchorPosition();
+        var chainLength = app.getAnchorChainLength();
+        var positions = app.getSailboatPositions();
+
+        // Ustal parametry "mapy"
+        var mapX = 30;
+        var mapY = 30;
+        var mapW = dc.getWidth() - 60;
+        var mapH = dc.getHeight() - 60;
+
+        // Rysuj tło mapy
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
+        dc.drawRectangle(mapX, mapY, mapW, mapH);
+
+        // Jeśli anchorPosition jest ustawiony
+        if (anchor != null) {
+            // Wyznacz środek mapy
+            var centerX = mapX + mapW/2;
+            var centerY = mapY + mapH/2;
+
+            // Rysuj okrąg alarmowy (jeśli anchorChainLength ustawiony)
+            if (chainLength != null) {
+                var scale = 1.0; // Możesz dobrać skalę do rozmiaru mapy
+                var radius = chainLength * scale;
+                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+                dc.drawCircle(centerX, centerY, radius);
+            }
+
+            // Zaznacz anchorPosition (czarny X)
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, centerY, Graphics.FONT_LARGE, "X", Graphics.TEXT_JUSTIFY_CENTER);
+
+            // Rysuj pozycje łodzi (zielone kółka)
+            if (positions != null && positions.size() > 0) {
+                for (var i = 0; i < positions.size(); ++i) {
+                    var pos = positions[i];
+                    // Przeskaluj pozycję względem anchorPosition (tu uproszczenie: wszystkie na środku)
+                    // W praktyce musisz przeliczyć różnicę współrzędnych na piksele!
+                    var px = pos.toDegrees()[0] * 10 + centerX; // Przykładowe przeliczenie
+                    var py = pos.toDegrees()[1] * 10 + centerY; // Przykładowe przeliczenie
+                    dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+                    dc.fillCircle(px, py, 6);
+                }
+            }
+
+            // Sprawdź dystans do ostatniej pozycji i włącz wibrację jeśli poza zasięgiem
+            if (positions != null && positions.size() > 0 && chainLength != null) {
+                var lastPos = positions[positions.size()-1];
+                var dist = distance(anchor, lastPos); // w metrach
+                if (dist > chainLength) {
+                    Attention.vibrate([new Attention.VibeProfile(25, 100)]);
+                }
+            }
+        } else {
+            // Brak pozycji kotwicy
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            dc.drawText(mapX+mapW/2, mapY+mapH/2, Graphics.FONT_LARGE, "Ustaw kotwicę", Graphics.TEXT_JUSTIFY_CENTER);
+        }
     }
 }

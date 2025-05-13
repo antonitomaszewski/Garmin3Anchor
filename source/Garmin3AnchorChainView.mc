@@ -6,6 +6,11 @@ class Garmin3AnchorChainView extends WatchUi.View {
     private var _digits = [0,0,0] as Array<Lang.Number>;
     private var _selected = 0 as Lang.Number;
 
+    public function initialize() {
+        View.initialize();
+    }
+
+
     function incrementDigit() { _digits[_selected] = (_digits[_selected]+1)%10; WatchUi.requestUpdate(); }
     function decrementDigit() { _digits[_selected] = (_digits[_selected]+9)%10; WatchUi.requestUpdate(); }
     function nextDigitOrAccept() {
@@ -14,12 +19,6 @@ class Garmin3AnchorChainView extends WatchUi.View {
         WatchUi.requestUpdate();
     }
 
-    public function initialize() {
-        View.initialize();
-        // WatchUi.setBackgroundColor(Graphics.COLOR_BLACK);
-        // WatchUi.setColor(Graphics.COLOR_WHITE);
-        // WatchUi.setFont(Graphics.FONT_LARGE);
-    }
 
     public function selected() {
         // tu powinniśmy wrócić wyborem do Mapy głównej lub ustawień kotwicy

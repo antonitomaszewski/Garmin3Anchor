@@ -22,7 +22,7 @@ wrzucamy klucz tutaj: /home/atoma/Pulpit/antoni/garmin_keys/private_key.der
 
 
 monkeyc -d fenix6xpro -f monkey.jungle -o bin/Aplikacja.prg -y /home/atoma/Pulpit/antoni/garmin_keys/private_key.der
-monkeydo bin/Aplikacja.prg fenix6xpro
+connectiq & monkeydo bin/Aplikacja.prg fenix6xpro
 
 
 przydatny artykuł, udało mi się dojść do punktu 3 z sukcesem:
