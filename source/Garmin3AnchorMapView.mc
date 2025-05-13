@@ -6,12 +6,41 @@ import Toybox.Position;
 import Toybox.Lang;
 
 class Garmin3AnchorMapView extends WatchUi.MapView {
-    function initialize() {
+    public function initialize() {
         System.println("Garmin3AnchorMapView.initialize");
         MapView.initialize();
+        setMapMode(WatchUi.MAP_MODE_PREVIEW);
+        // create a new polyline
+
+        // marker = new WatchUi.MapMarker(new Position.Location({:latitude => 340.85508, :longitude =>-94.79959, :format => :degrees}));
+        // marker.setIcon(WatchUi.MAP_MARKER_ICON_PIN, 0, 0);
+        // marker.setLabel("Predefined Icon");
+        // map_markers.add(marker);
+
+        // // add map markers to the map
+        // MapView.setMapMarker(map_markers);
+
+        // create the bounding box for the map area
+        var top_left = new Position.Location({:latitude => 38.85695, :longitude =>-94.80051, :format => :degrees});
+        var bottom_right = new Position.Location({:latitude => 45.85391, :longitude =>-94.7963, :format => :degrees});
+        MapView.setMapVisibleArea(top_left, bottom_right);
+
+        // set the bound box for the screen area to focus the map on
+        MapView.setScreenVisibleArea(0, 0, System.getDeviceSettings().screenWidth, System.getDeviceSettings().screenHeight / 2);
     }
 
-    function distance(pos1 as Position.Location or Null, pos2 as Position.Location or Null) as Number or Double or Float {
+    //! Load your resources here
+    //! @param dc Device context
+    public function onLayout(dc as Dc) as Void {
+    }
+
+    //! Called when this View is brought to the foreground. Restore
+    //! the state of this View and prepare it to be shown. This includes
+    //! loading resources into memory.
+    public function onShow() as Void {
+    }
+
+    public function distance(pos1 as Position.Location or Null, pos2 as Position.Location or Null) as Number or Double or Float {
         if (pos1 == null || pos2 == null) {
             return 0;
         }
@@ -27,7 +56,7 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         return R * c;
     }
 
-    function onUpdate(dc as Dc) as Void {
+    public function onUpdate(dc as Dc) as Void {
         System.println("Garmin3AnchorMapView.onUpdate");
         dc.clear();
 
@@ -36,6 +65,13 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         var chainLength = app.getAnchorChainLength();
         var positions = app.getSailboatPositions();
 
+
+        if (anchor == null or chainLength == null or positions == null or positions.size() == 0) {
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            dc.drawText(dc.getWidth()/2, dc.getHeight()/2, Graphics.FONT_LARGE, "Brak danych", Graphics.TEXT_JUSTIFY_CENTER);
+            return;
+        }
+        
         // Ustal parametry "mapy"
         var mapX = 30;
         var mapY = 30;
@@ -45,10 +81,6 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         // Rysuj tło mapy
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
         dc.drawRectangle(mapX, mapY, mapW, mapH);
-
-        if (anchor == null or positions == null or positions.size() == 0) {
-            return;
-        }
 
         // Jeśli anchorPosition jest ustawiony
         if (anchor != null) {

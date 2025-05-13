@@ -109,7 +109,9 @@ class Garmin3AnchorApp extends Application.AppBase {
     // Return the initial view of your application here
     function getInitialView() as [Views] or [Views, InputDelegates] {
         System.println("Garmin3AnchorApp.getInitialView");
-        return [getMenuView(), getMenuDelegate()];
+        // return [getMenuView(), getMenuDelegate()];
+        // return [getMapView()];
+        return [new Garmin3AnchorMapView()];
     }
 }
 
