@@ -3,7 +3,7 @@
     <bitmap id="Boat" filename="boat_32.png" />
     <!-- <bitmap id="Sailboat" filename="sailboat.png" /> -->
     <bitmap id="Anchor" filename="anchor_32.png" />
-    <bitmap id="GreenDot" filename="green_dot_30.png" />
+    <bitmap id="GreenDot" filename="green_dot_10.png" />
     <bitmap id="RedDot" filename="red_dot_48.png" />
     <bitmap id="Circle" filename="circle_100.png" />
 </drawables>

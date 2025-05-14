@@ -7,6 +7,7 @@ import Toybox.Position;
 class Garmin3AnchorApp extends Application.AppBase {
     // var positionInfo
     private var anchorPosition as Position.Location or Null;
+    private var anchorPositionChanged as Boolean = false;
     private var anchorChainLength as Number or Null;
     private var sailboatPositions as Array<Position.Location> = [];
 
@@ -62,6 +63,7 @@ class Garmin3AnchorApp extends Application.AppBase {
             :longitude => lon,
             :format => :degrees
         });
+        setAnchorPositionChanged(true);
         System.println("Ustawiono domyślną pozycję kotwicy: " + lat + ", " + lon);
     }
 
@@ -83,6 +85,16 @@ class Garmin3AnchorApp extends Application.AppBase {
     function getAnchorPosition() as Position.Location or Null {
         System.println("Garmin3AnchorApp.getAnchorPosition");
         return anchorPosition;
+    }
+
+    function isAnchorPositionChanged() as Boolean {
+        System.println("Garmin3AnchorApp.isAnchorPositionChanged");
+        return anchorPositionChanged;
+    }
+
+    function setAnchorPositionChanged(changed as Boolean) as Void {
+        System.println("Garmin3AnchorApp.setAnchorPositionChanged: " + changed);
+        anchorPositionChanged = changed;
     }
 
     function setAnchorChainLength(length as Number) as Void {
