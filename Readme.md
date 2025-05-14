@@ -119,6 +119,8 @@ Plan na kotwice
 4. AnchorChainView
    1. ekran wyboru liczby
 
+Ikony pobieram z https://www.flaticon.com/search?word=circle jako pliki .png
+
 ### PositionSample
 przetestowałem te aplikację, jest bardzo prosta.
 1. APP
