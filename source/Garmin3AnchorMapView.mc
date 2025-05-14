@@ -11,7 +11,8 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
     private var boatIcon = WatchUi.loadResource($.Rez.Drawables.Boat) as BitmapResource;
     private var greenDotIcon = WatchUi.loadResource($.Rez.Drawables.GreenDot) as BitmapResource;
     private var redDotIcon = WatchUi.loadResource($.Rez.Drawables.RedDot) as BitmapResource;
-    private var anchorMarkerSize = 12;
+    private var anchorIconSize = 12;
+    private var greenDotSize = 4;
     public function initialize() {
         System.println("Garmin3AnchorMapView.initialize");
         MapView.initialize();
@@ -96,49 +97,32 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         MapView.onUpdate(dc);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
         
-        // var map_markers = [];
         var app = getApp();
         var anchor = app.getAnchorPosition();
         var sailboatPositions = app.getSailboatPositions();
         if (anchor != null) {
-            // Przelicz anchorPosition na współrzędne ekranu
-            // var anchorPoint = self.mapToScreen(anchor);
             var mapMarkers = [];
             var anchorPositionMapMarker = new WatchUi.MapMarker(anchor);
-            anchorPositionMapMarker.setIcon(anchorIcon, 12, 12);
+            anchorPositionMapMarker.setIcon(anchorIcon, anchorIconSize, anchorIconSize);
             anchorPositionMapMarker.setLabel("Anchor");
             mapMarkers.add(anchorPositionMapMarker);
 
             for (var i = 0; i < sailboatPositions.size() - 1; ++i) {
                 var pos = sailboatPositions[i];
                 var marker = new WatchUi.MapMarker(pos);
-                marker.setIcon(greenDotIcon, 12, 12);
+                marker.setIcon(greenDotIcon, greenDotSize, greenDotSize);
                 marker.setLabel("Boat " + (i + 1));
                 mapMarkers.add(marker);
             }
             if (sailboatPositions.size() > 0) {
                 var currentPosition = sailboatPositions[sailboatPositions.size() - 1];
                 var marker = new WatchUi.MapMarker(currentPosition);
-                marker.setIcon(boatIcon, 12, 12);
+                marker.setIcon(boatIcon, greenDotSize, greenDotSize);
                 marker.setLabel("Current Position");
                 mapMarkers.add(marker);
             }
-
             MapView.setMapMarker(mapMarkers);
-            
-
-            //         // create map markers array
-            // var map_markers = [];
-
-            // // create a map marker at a location on the map
-            // var marker = new WatchUi.MapMarker(new Position.Location({:latitude => 38.85391, :longitude =>-94.79630, :format => :degrees}));
-            // marker.setIcon(WatchUi.loadResource($.Rez.Drawables.MapPin) as BitmapResource, 12, 24);
-            // marker.setLabel("Custom Icon");
-            // map_markers.add(marker);
         }
-        // map_markers.add(marker);
-
-        // add map markers to the map
     }
 
     // public function onUpdate(dc as Dc) as Void {
