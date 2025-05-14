@@ -110,18 +110,10 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
             // anchorPositionMapMarker.setSize("Anchor");
             mapMarkers.add(anchorPositionMapMarker);
 
-            for (var i = 0; i < sailboatPositions.size() - 1; ++i) {
+            for (var i = 0; i < sailboatPositions.size(); ++i) {
                 var pos = sailboatPositions[i];
                 var marker = new WatchUi.MapMarker(pos);
                 marker.setIcon(greenDotIcon, greenDotSize, greenDotSize);
-                // marker.setLabel("Boat " + (i + 1));
-                mapMarkers.add(marker);
-            }
-            if (sailboatPositions.size() > 0) {
-                var currentPosition = sailboatPositions[sailboatPositions.size() - 1];
-                var marker = new WatchUi.MapMarker(currentPosition);
-                marker.setIcon(boatIcon, greenDotSize, greenDotSize);
-                // marker.setLabel("Current Position");
                 mapMarkers.add(marker);
             }
             MapView.setMapMarker(mapMarkers);
