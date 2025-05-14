@@ -112,34 +112,14 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         var app = getApp();
         var anchor = app.getAnchorPosition();
         var sailboatPositions = app.getSailboatPositions();
+        
         if (anchor == null) {
             return;
         }
         var mapMarkers = [];
-        if (app.isAnchorPositionChanged()) {
-            System.println("Garmin3AnchorMapView.onUpdate: anchor position changed");
-            addMarker(mapMarkers, anchor, anchorIcon, 0, 0, "Anchor");
-            app.setAnchorPositionChanged(false);
-        }
-        if (sailboatPositions.size() > 0) {
-            var pos = sailboatPositions[sailboatPositions.size() - 1];
-            System.println("Garmin3AnchorMapView.onUpdate: no sailboat positions");
-            addMarker(mapMarkers, pos, greenDotIcon, 0, 0, null);
-        }
-        // var mapMarker = new WatchUi.MapMarker(anchor);
-        // mapMarker.setIcon(anchorIcon, anchorIconSize, anchorIconSize);
-        // mapMarker.setLabel("Anchor");
-        // mapMarkers.add(mapMarker);
-        // anchorPositionMapMarker.setSize("Anchor");
-
-        // for (var i = 0; i < sailboatPositions.size(); ++i) {
-        //     var pos = sailboatPositions[i];
-        //     var marker = new WatchUi.MapMarker(pos);
-        //     marker.setIcon(greenDotIcon, greenDotSize, greenDotSize);
-        //     mapMarkers.add(marker);
-        // }
-        if(mapMarkers.size() == 0) {
-            return;
+        addMarker(mapMarkers, anchor, anchorIcon, 0, 0, "Anchor");
+        for (var i = 0; i < sailboatPositions.size(); ++i) {
+            addMarker(mapMarkers, sailboatPositions[i], greenDotIcon, 0, 0, null);
         }
         MapView.setMapMarker(mapMarkers);
     }

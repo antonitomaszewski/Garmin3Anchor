@@ -21,13 +21,14 @@ class Garmin3AnchorChainView extends WatchUi.View {
     }
     function nextDigitOrAccept() as Void {
         System.println("Garmin3AnchorChainView.nextDigitOrAccept");
-        if (_selected < 2) { _selected += 1; }
-        else {
+        if (_selected < 2) {
+             _selected += 1; 
+        } else {
             _selected = 0;
             System.println("Długość łańcucha ustawiona");
             WatchUi.popView(WatchUi.SLIDE_UP); 
         }
-        // WatchUi.requestUpdate();
+        WatchUi.requestUpdate();
     }
     public function escape() as Void {
         var app = getApp();
