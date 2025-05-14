@@ -1,3 +1,9 @@
 <drawables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
-    <bitmap id="LauncherIcon" filename="launcher_icon.svg" dithering="none" />
+    <bitmap id="LauncherIcon" filename="anchor_logo.png" dithering="none" />
+    <bitmap id="Boat" filename="boat.png" />
+    <bitmap id="Sailboat" filename="sailboat.png" />
+    <bitmap id="Anchor" filename="anchor.png" />
+    <bitmap id="GreenDot" filename="green_dot.png" />
+    <bitmap id="RedDot" filename="red_dot.png" />
+    <bitmap id="Circle" filename="circle.png" />
 </drawables>
