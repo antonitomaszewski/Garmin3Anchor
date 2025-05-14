@@ -90,6 +90,31 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         System.println("Garmin3AnchorMapView.onUpdate");
         MapView.onUpdate(dc);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        
+        // var map_markers = [];
+        var app = getApp();
+        var anchor = app.getAnchorPosition();
+        // var sailboatPositions = app.getSailboatPositions();
+        if (anchor != null) {
+            // Przelicz anchorPosition na współrzędne ekranu
+            // var anchorPoint = self.mapToScreen(anchor);
+            var anchorPositionMapMarker = new WatchUi.MapMarker(anchor);
+            anchorPositionMapMarker.setIcon(WatchUi.MAP_MARKER_ICON_PIN, 0, 0);
+            anchorPositionMapMarker.setLabel("Anchor");
+            MapView.setMapMarker([anchorPositionMapMarker]);
+
+            //         // create map markers array
+            // var map_markers = [];
+
+            // // create a map marker at a location on the map
+            // var marker = new WatchUi.MapMarker(new Position.Location({:latitude => 38.85391, :longitude =>-94.79630, :format => :degrees}));
+            // marker.setIcon(WatchUi.loadResource($.Rez.Drawables.MapPin) as BitmapResource, 12, 24);
+            // marker.setLabel("Custom Icon");
+            // map_markers.add(marker);
+        }
+        // map_markers.add(marker);
+
+        // add map markers to the map
     }
 
     // public function onUpdate(dc as Dc) as Void {
