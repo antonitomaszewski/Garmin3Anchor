@@ -7,6 +7,11 @@ import Toybox.Lang;
 import Toybox.Math;
 
 class Garmin3AnchorMapView extends WatchUi.MapView {
+    private var anchorIcon = WatchUi.loadResource($.Rez.Drawables.Anchor) as BitmapResource;
+    private var boatIcon = WatchUi.loadResource($.Rez.Drawables.Boat) as BitmapResource;
+    private var greenDotIcon = WatchUi.loadResource($.Rez.Drawables.GreenDot) as BitmapResource;
+    private var redDotIcon = WatchUi.loadResource($.Rez.Drawables.RedDot) as BitmapResource;
+    private var anchorMarkerSize = 12;
     public function initialize() {
         System.println("Garmin3AnchorMapView.initialize");
         MapView.initialize();
@@ -94,14 +99,33 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         // var map_markers = [];
         var app = getApp();
         var anchor = app.getAnchorPosition();
-        // var sailboatPositions = app.getSailboatPositions();
+        var sailboatPositions = app.getSailboatPositions();
         if (anchor != null) {
             // Przelicz anchorPosition na współrzędne ekranu
             // var anchorPoint = self.mapToScreen(anchor);
+            var mapMarkers = [];
             var anchorPositionMapMarker = new WatchUi.MapMarker(anchor);
-            anchorPositionMapMarker.setIcon(WatchUi.MAP_MARKER_ICON_PIN, 0, 0);
+            anchorPositionMapMarker.setIcon(anchorIcon, 12, 12);
             anchorPositionMapMarker.setLabel("Anchor");
-            MapView.setMapMarker([anchorPositionMapMarker]);
+            mapMarkers.add(anchorPositionMapMarker);
+
+            for (var i = 0; i < sailboatPositions.size() - 1; ++i) {
+                var pos = sailboatPositions[i];
+                var marker = new WatchUi.MapMarker(pos);
+                marker.setIcon(greenDotIcon, 12, 12);
+                marker.setLabel("Boat " + (i + 1));
+                mapMarkers.add(marker);
+            }
+            if (sailboatPositions.size() > 0) {
+                var currentPosition = sailboatPositions[sailboatPositions.size() - 1];
+                var marker = new WatchUi.MapMarker(currentPosition);
+                marker.setIcon(boatIcon, 12, 12);
+                marker.setLabel("Current Position");
+                mapMarkers.add(marker);
+            }
+
+            MapView.setMapMarker(mapMarkers);
+            
 
             //         // create map markers array
             // var map_markers = [];
