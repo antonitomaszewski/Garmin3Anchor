@@ -138,6 +138,9 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         //     marker.setIcon(greenDotIcon, greenDotSize, greenDotSize);
         //     mapMarkers.add(marker);
         // }
+        if(mapMarkers.size() == 0) {
+            return;
+        }
         MapView.setMapMarker(mapMarkers);
     }
 
