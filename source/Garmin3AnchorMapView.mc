@@ -27,7 +27,7 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
         var app = getApp();
         var anchor = app.getAnchorPosition();
         var chainLength = app.getAnchorChainLength();
-        var ZoomIN = 2;
+        var ZoomIN = 3;
 
         if (anchor != null and chainLength != null) {
             // Oblicz przesunięcie w stopniach dla podanej odległości (przybliżenie)
@@ -117,10 +117,10 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
             return;
         }
         var mapMarkers = [];
-        addMarker(mapMarkers, anchor, anchorIcon, 0, 0, "Anchor");
         for (var i = 0; i < sailboatPositions.size(); ++i) {
             addMarker(mapMarkers, sailboatPositions[i], greenDotIcon, 0, 0, null);
         }
+        addMarker(mapMarkers, anchor, anchorIcon, 0, 0, "Anchor");
         MapView.setMapMarker(mapMarkers);
     }
 
