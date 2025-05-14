@@ -7,6 +7,8 @@ import Toybox.Lang;
 import Toybox.Math;
 
 class Garmin3AnchorMapView extends WatchUi.MapView {
+    // w setIcon ustawiamy współrzędne w pikselach, które mamy ustawić dokładnie na lokalizacji
+    // w setSize ustawiamy wielkość, ale tej metody nie ma na MapMarker
     private var anchorIcon = WatchUi.loadResource($.Rez.Drawables.Anchor) as BitmapResource;
     private var boatIcon = WatchUi.loadResource($.Rez.Drawables.Boat) as BitmapResource;
     private var greenDotIcon = WatchUi.loadResource($.Rez.Drawables.GreenDot) as BitmapResource;
@@ -105,20 +107,21 @@ class Garmin3AnchorMapView extends WatchUi.MapView {
             var anchorPositionMapMarker = new WatchUi.MapMarker(anchor);
             anchorPositionMapMarker.setIcon(anchorIcon, anchorIconSize, anchorIconSize);
             anchorPositionMapMarker.setLabel("Anchor");
+            // anchorPositionMapMarker.setSize("Anchor");
             mapMarkers.add(anchorPositionMapMarker);
 
             for (var i = 0; i < sailboatPositions.size() - 1; ++i) {
                 var pos = sailboatPositions[i];
                 var marker = new WatchUi.MapMarker(pos);
                 marker.setIcon(greenDotIcon, greenDotSize, greenDotSize);
-                marker.setLabel("Boat " + (i + 1));
+                // marker.setLabel("Boat " + (i + 1));
                 mapMarkers.add(marker);
             }
             if (sailboatPositions.size() > 0) {
                 var currentPosition = sailboatPositions[sailboatPositions.size() - 1];
                 var marker = new WatchUi.MapMarker(currentPosition);
                 marker.setIcon(boatIcon, greenDotSize, greenDotSize);
-                marker.setLabel("Current Position");
+                // marker.setLabel("Current Position");
                 mapMarkers.add(marker);
             }
             MapView.setMapMarker(mapMarkers);
