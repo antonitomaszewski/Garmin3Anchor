@@ -3,11 +3,13 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 import Toybox.System;
 import Toybox.Position;
+import Toybox.Time;
 
 class Garmin3AnchorApp extends Application.AppBase {
+    private const POSITION_SAVE_INTERVAL_SECONDS = new Time.Duration(60); // co ile sekund zapisywać pozycję
     // var positionInfo
     private var anchorPosition as Position.Location or Null;
-    private var anchorPositionChanged as Boolean = false;
+    private var _lastPositionTimestamp as Time.Moment or Null = Time.now();
     private var anchorChainLength as Number or Null;
     private var sailboatPositions as Array<Position.Location> = [];
 
@@ -39,9 +41,18 @@ class Garmin3AnchorApp extends Application.AppBase {
 
     function onPosition(info as Position.Info) as Void {
         System.println("Garmin3AnchorView.onPosition");
-        if (isAnchorPositionSet()) {
+        if (isAnchorPositionSet() and shouldSaveSailboatPosition(info.when) ) {
             addSailboatPosition(info);
         }
+    }
+
+    function shouldSaveSailboatPosition(when as Time.Moment) as Boolean {
+        var diff = _lastPositionTimestamp.add(POSITION_SAVE_INTERVAL_SECONDS);
+        if (when.greaterThan(diff)) {
+            _lastPositionTimestamp = when;
+            return true;
+        }
+        return false;
     }
     
     function onStop(state as Dictionary?) as Void {
