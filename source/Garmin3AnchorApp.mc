@@ -150,6 +150,18 @@ class Garmin3AnchorApp extends Application.AppBase {
         return [getMenuView(), getMenuDelegate()];
         // return [getMapView()];
     }
+
+    function showMap() {
+        var view = new Garmin3AnchorMapView();
+        var delegate = new Garmin3AnchorMapDelegate(view);
+        WatchUi.pushView(view, delegate, WatchUi.SLIDE_LEFT);
+    }
+
+    function showMenu() {
+        var view = new Garmin3AnchorMenuView();
+        var delegate = new Garmin3AnchorMenuDelegate(view);
+        WatchUi.pushView(view, delegate, WatchUi.SLIDE_LEFT);
+    }
 }
 
 function getApp() as Garmin3AnchorApp {

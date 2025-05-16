@@ -121,6 +121,11 @@ Plan na kotwice
 
 Ikony pobieram z https://www.flaticon.com/search?word=circle jako pliki .png
 
+Mamy mieć stos widoków
+zawsze na dole stosu jest widok główny (czyli w naszym przypadku mapa)
+i do to niej wracamy klikając wstecz
+Należy PushView(new view, new delegate(view)) -> PopView() itd
+
 ### PositionSample
 przetestowałem te aplikację, jest bardzo prosta.
 1. APP
