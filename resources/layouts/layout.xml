@@ -1,5 +1,5 @@
 <layout id="MenuLayout" background="Graphics.COLOR_TRANSPARENT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
-    <label id="setAnchorPosition" text="@Strings.setAnchorPosition" x="center" y="top" font="Graphics.FONT_MEDIUM" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" />
-    <label id="setAnchorChainLength" text="@Strings.setAnchorChainLength" x="center" y="center" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" />
-    <label id="back" text="@Strings.back" x="center" y="bottom" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" />    
+    <label id="menuOptionTop"    text="" x="center" y="30"  font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <label id="menuOptionCenter" text="" x="center" y="center" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <label id="menuOptionBottom" text="" x="center" y="180" font="Graphics.FONT_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" />
 </layout>

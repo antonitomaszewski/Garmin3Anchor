@@ -5,18 +5,26 @@ import Toybox.Lang;
 
 class Garmin3AnchorMenuView extends WatchUi.View {
     private var _selectedIndex as Number = 0;
-
+    private var _options as Array<String>;
     private var _menuLayout as Array<Drawable>?;
     private enum Actions {
         ACTION_ANCHOR_POSITION,
         ACTION_ANCHOR_LENGTH,
         ACTION_BACK_TO_MAP,
+        ACTION_EXIT,
         ACTION_COUNT
     }
 
     function initialize() {
         System.println("Garmin3AnchorMenuView.initialize");
         View.initialize();
+
+        _options = [
+            Application.loadResource($.Rez.Strings.setAnchorPosition),
+            Application.loadResource($.Rez.Strings.setAnchorChainLength),
+            Application.loadResource($.Rez.Strings.back),
+            Application.loadResource($.Rez.Strings.exit)
+        ];
     }
 
     //! Load your resources here
@@ -38,14 +46,35 @@ class Garmin3AnchorMenuView extends WatchUi.View {
         var height = dc.getHeight();
         var width = dc.getWidth();
 
-        // Draw selected box
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.fillRectangle(0, _selectedIndex * height / ACTION_COUNT, width, height / ACTION_COUNT);
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        // Wyznacz indeksy opcji do wyświetlenia (poprzednia, aktualna, następna)
+        var count = _options.size();
+        var topIdx    = (_selectedIndex - 1 + count) % count;
+        var centerIdx = _selectedIndex;
+        var bottomIdx = (_selectedIndex + 1) % count;
 
-        // Draw frames
-        dc.drawLine(0, height / ACTION_COUNT, width, height / ACTION_COUNT);
-        dc.drawLine(0, 2 * height / ACTION_COUNT, width, 2 * height / ACTION_COUNT);
+            // Ustaw teksty w layout
+        var topLabel    = findDrawableById("menuOptionTop") as WatchUi.Text;
+        var centerLabel = findDrawableById("menuOptionCenter") as WatchUi.Text;
+        var bottomLabel = findDrawableById("menuOptionBottom") as WatchUi.Text;
+
+        if (topLabel != null)    { topLabel.setText(_options[topIdx]); }
+        if (centerLabel != null) { centerLabel.setText(_options[centerIdx]); }
+        if (bottomLabel != null) { bottomLabel.setText(_options[bottomIdx]); }
+
+        // Podświetl środkową opcję
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        var centerY = dc.getHeight() / 2 - dc.getFontHeight(Graphics.FONT_MEDIUM) / 2;
+        dc.fillRectangle(0, centerY, width, dc.getFontHeight(Graphics.FONT_MEDIUM));
+
+
+        // // Draw selected box
+        // dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        // dc.fillRectangle(0, _selectedIndex * height / ACTION_COUNT, width, height / ACTION_COUNT);
+        // dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+
+        // // Draw frames
+        // dc.drawLine(0, height / ACTION_COUNT, width, height / ACTION_COUNT);
+        // dc.drawLine(0, 2 * height / ACTION_COUNT, width, 2 * height / ACTION_COUNT);
 
         // Draw text fields in layout
         if (_menuLayout != null) {
@@ -88,9 +117,12 @@ class Garmin3AnchorMenuView extends WatchUi.View {
             WatchUi.pushView(app.getChainView(), app.getChainDelegate(), WatchUi.SLIDE_LEFT);
         } else if (ACTION_BACK_TO_MAP == _selectedIndex) {
             // Exit menu
-            WatchUi.pushView(new Garmin3AnchorMapView(), null, WatchUi.SLIDE_DOWN);
-            // var app = getApp();
-            // WatchUi.pushView(app.getMapView(), app.getMapDelegate(), WatchUi.SLIDE_LEFT);
+            // WatchUi.pushView(new Garmin3AnchorMapView(), null, WatchUi.SLIDE_DOWN);
+            var app = getApp();
+            WatchUi.pushView(app.getMapView(), app.getMapDelegate(), WatchUi.SLIDE_LEFT);
+        } else if (ACTION_EXIT == _selectedIndex) {
+            System.println("Wyjście z aplikacji przez menu");
+            System.exit();
         }
         WatchUi.requestUpdate();
     }
