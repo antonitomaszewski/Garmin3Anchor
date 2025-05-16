@@ -116,10 +116,20 @@ class Garmin3AnchorMenuView extends WatchUi.View {
             var app = getApp();
             WatchUi.pushView(app.getChainView(), app.getChainDelegate(), WatchUi.SLIDE_LEFT);
         } else if (ACTION_BACK_TO_MAP == _selectedIndex) {
-            // Exit menu
-            // WatchUi.pushView(new Garmin3AnchorMapView(), null, WatchUi.SLIDE_DOWN);
-            var app = getApp();
-            WatchUi.pushView(app.getMapView(), app.getMapDelegate(), WatchUi.SLIDE_LEFT);
+            // Exit menu -- z tego wzroca powinniśmy zazwyczaj korzystać,
+            // dodatkowo należy push - pop używać często, a nie sztuwno zdefiniowane mieć wszystkie widoki w 
+            // App
+//             ja chyba czegoś nie rozumiem w przepływie plików,
+// mam wrażenie że powinnieśmy więcej korzystać z push view, pop view
+// czyli:
+// na samej inicjalizacji aplikacji robimy PushView (map) 
+// w inicjaliacji map robimy PushView(menu)
+// i gdy klikniemy back w menu to robimy popView()
+// a w Map nie ma możliwości klikniecia back, natomiast jest opcja przytrzymania długeigo key_up i to robi nam z powroten PushView Menu
+// Dodatkowo pewnie nie powinniśmy wszystkich widoków trzymać raz zainicjowanych w naszym APP tylko za każdym razem wywoływać new w pushView 
+            var view = new $.Garmin3AnchorMapView();
+            var delegate = new $.Garmin3AnchorMapDelegate(view);
+            WatchUi.pushView(view, delegate, WatchUi.SLIDE_DOWN);
         } else if (ACTION_EXIT == _selectedIndex) {
             System.println("Wyjście z aplikacji przez menu");
             System.exit();
